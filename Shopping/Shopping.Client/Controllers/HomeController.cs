@@ -23,7 +23,7 @@ namespace Shopping.Client.Controllers
         {
             var response = await _httpClient.GetAsync("/Product");
             var content = await response.Content.ReadAsStringAsync();
-            var productList = JsonConvert.DeserializeObject<IEnumerable<Product>>(content) ?? Enumerable.Empty<Product>();
+            var productList = JsonConvert.DeserializeObject<IEnumerable<Product>>(content);
             return View(productList);
         }
 
