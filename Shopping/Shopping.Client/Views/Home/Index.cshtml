@@ -3,28 +3,30 @@
 <h2>Products</h2>
 
 <div>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Description</th>
-                <th>ImageFile</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach (var items in Model)
-            {
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-bordered">
+            <thead>
                 <tr>
-                    <td>@items.Name</td>
-                    <td>@items.Category</td>
-                    <td>@items.Description</td>
-                    <td>@items.ImageFile</td>
-                    <td>@items.Price</td>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>ImageFile</th>
+                    <th>Price</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var items in Model)
+                {
+                    <tr>
+                        <td>@items.Name</td>
+                        <td>@items.Category</td>
+                        <td>@items.Description</td>
+                        <td>@items.ImageFile</td>
+                        <td>@items.Price</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 </div>

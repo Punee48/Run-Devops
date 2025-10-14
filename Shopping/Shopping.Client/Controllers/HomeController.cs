@@ -1,22 +1,30 @@
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
-using Shopping.Client.Data;
+using Newtonsoft.Json;
 using Shopping.Client.Models;
+using System.Net.Http;
 
 namespace Shopping.Client.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly HttpClient _httpClient;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IHttpClientFactory httpClientFactory, ILogger<HomeController> logger)
         {
-            _logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _httpClient = httpClientFactory.CreateClient("ShoppingAPI");
         }
 
-        public IActionResult Index()
+
+        public async Task<IActionResult> Index()
         {
-            return View(ProductContext.products);
+            var response = await _httpClient.GetAsync("/Product");
+            var content = await response.Content.ReadAsStringAsync();
+            var productList = JsonConvert.DeserializeObject<IEnumerable<Product>>(content) ?? Enumerable.Empty<Product>();
+            return View(productList);
         }
 
         public IActionResult Privacy()
