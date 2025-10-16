@@ -1,0 +1,28 @@
+services:
+  shopping.api:
+    container_name: shoppingapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DatabaseSettings: ConnectionString=mongodb://shoppingdb:27017"
+    ports:
+      - "5000:80"
+    depends_on:
+      - shopping.db
+
+  shopping.client:
+    container_name: shoppingclient
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ShoppingAPIUrl=http://shoppingapi"
+    ports:
+      - "5001:80"
+    depends_on:
+      - shopping.api
+      - shopping.db
+  
+  shopping.db:
+    container_name: shoppingdb
+    ports:
+      - "27017:27017"
+
+    
